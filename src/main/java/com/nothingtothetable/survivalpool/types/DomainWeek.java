@@ -1,10 +1,11 @@
-package types;
+package com.nothingtothetable.survivalpool.types;
 
 import java.util.List;
 
 public class DomainWeek
 {
     private Long id;
+    private String name;
     private List<DomainGame> games;
     private DomainSeason season;
 
@@ -16,6 +17,16 @@ public class DomainWeek
     public void setId(Long id)
     {
         this.id = id;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     public List<DomainGame> getGames()

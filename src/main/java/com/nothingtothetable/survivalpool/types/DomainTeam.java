@@ -1,8 +1,11 @@
-package types;
+package com.nothingtothetable.survivalpool.types;
 
 public class DomainTeam
 {
     private Long id;
+    private String name;
+    private String shortName;
+    private DomainSeason season;
     private DomainRecord seasonRecord;
     private DomainWeek byeWeek;
 
@@ -14,6 +17,26 @@ public class DomainTeam
     public void setId(Long id)
     {
         this.id = id;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getShortName()
+    {
+        return shortName;
+    }
+
+    public void setShortName(String shortName)
+    {
+        this.shortName = shortName;
     }
 
     public DomainRecord getSeasonRecord()

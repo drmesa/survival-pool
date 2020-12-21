@@ -1,4 +1,4 @@
-package types;
+package com.nothingtothetable.survivalpool.types;
 
 import java.time.DayOfWeek;
 

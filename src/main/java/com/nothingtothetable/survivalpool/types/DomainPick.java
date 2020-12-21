@@ -1,9 +1,10 @@
-package types;
+package com.nothingtothetable.survivalpool.types;
 
 public class DomainPick
 {
     private Long id;
     private DomainWeek week;
+    private DomainTeam team;
     private PickOutcome pickOutcome;
 
     public Long getId()

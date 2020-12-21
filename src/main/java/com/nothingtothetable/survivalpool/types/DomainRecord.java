@@ -1,8 +1,9 @@
-package types;
+package com.nothingtothetable.survivalpool.types;
 
 public class DomainRecord
 {
     private Long id;
+    private DomainTeam team;
     private Integer wins;
     private Integer losses;
     private Integer ties;
@@ -15,6 +16,16 @@ public class DomainRecord
     public void setId(Long id)
     {
         this.id = id;
+    }
+
+    public DomainTeam getTeam()
+    {
+        return team;
+    }
+
+    public void setTeam(DomainTeam team)
+    {
+        this.team = team;
     }
 
     public Integer getWins()

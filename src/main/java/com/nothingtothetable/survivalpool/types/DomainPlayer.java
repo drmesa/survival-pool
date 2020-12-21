@@ -1,4 +1,4 @@
-package types;
+package com.nothingtothetable.survivalpool.types;
 
 import java.util.List;
 
@@ -8,5 +8,6 @@ public class DomainPlayer
     private DomainPick currentPick;
     private List<DomainPick> pastPicks;
     private Integer strikes;
-    
+    private String name;
+
 }
