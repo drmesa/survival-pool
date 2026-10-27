@@ -1,7 +1,10 @@
 package com.nothingtothetable.survivalpool.types;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class DomainPlayer
 {
     private Long id;
@@ -9,5 +12,4 @@ public class DomainPlayer
     private List<DomainPick> pastPicks;
     private Integer strikes;
     private String name;
-
 }
