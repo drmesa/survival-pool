@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-10-27
+goal: Read players from the existing MySQL database through a repository boundary.
+skip_specs: true
