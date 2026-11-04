@@ -1,18 +1,18 @@
 package com.nothingtothetable.survivalpool.controller.v1;
 
 import com.nothingtothetable.survivalpool.mapper.PlayerMapper;
-import com.nothingtothetable.survivalpool.service.PlayerService;
+import com.nothingtothetable.survivalpool.service.PlayerPageService;
+import com.nothingtothetable.survivalpool.types.PlayerSeasonSummary;
 import com.nothingtothetable.survivalpool.types.DomainPick;
 import com.nothingtothetable.survivalpool.types.DomainPlayer;
+import com.nothingtothetable.survivalpool.types.DomainPlayerPage;
 import org.mapstruct.factory.Mappers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
@@ -25,14 +25,14 @@ class PlayerControllerTest
 {
     private MockMvc mockMvc;
 
-    private PlayerService playerService;
+    private PlayerPageService playerService;
 
     private PlayerMapper playerMapper;
 
     @BeforeEach
     void setUp()
     {
-        playerService = mock(PlayerService.class);
+        playerService = mock(PlayerPageService.class);
         playerMapper = Mappers.getMapper(PlayerMapper.class);
         mockMvc = MockMvcBuilders.standaloneSetup(new PlayerController(playerService, playerMapper)).build();
     }
@@ -43,21 +43,32 @@ class PlayerControllerTest
         DomainPlayer player = new DomainPlayer();
         player.setId(42L);
         player.setName("Alex");
-        player.setStrikes(1);
-        DomainPick pastPick = new DomainPick();
-        pastPick.setId(7L);
-        Map<Long, List<DomainPick>> pastPicks =
-                Collections.singletonMap(2026L, Collections.singletonList(pastPick));
-        player.setPastPicks(pastPicks);
-        when(playerService.findById(42L)).thenReturn(Optional.of(player));
+        DomainPick pick = new DomainPick();
+        pick.setId(7L);
+        pick.setWeekNumber(1);
+        pick.setTeamSeasonId(99L);
+        pick.setTeamName("Baltimore Ravens");
+        pick.setTeamAbbreviation("BAL");
+        PlayerSeasonSummary seasonPage = new PlayerSeasonSummary();
+        seasonPage.setId(2026L);
+        seasonPage.setName("2025-2026");
+        seasonPage.setPicks(List.of(pick));
+        seasonPage.setStrikes(1);
+        seasonPage.setPaidIn(true);
+        DomainPlayerPage page = new DomainPlayerPage();
+        page.setPlayer(player);
+        page.setCurrentSeason(seasonPage);
+        when(playerService.findById(42L)).thenReturn(Optional.of(page));
 
         mockMvc.perform(get("/players/42"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(42))
-                .andExpect(jsonPath("$.name").value("Alex"))
-                .andExpect(jsonPath("$.strikes").value(1))
-                .andExpect(jsonPath("$.pastPicks").isMap())
-                .andExpect(jsonPath("$.pastPicks['2026'][0].id").value(7));
+                .andExpect(jsonPath("$.player.id").value(42))
+                .andExpect(jsonPath("$.player.name").value("Alex"))
+                .andExpect(jsonPath("$.currentSeason.id").value(2026))
+                .andExpect(jsonPath("$.currentSeason.strikes").value(1))
+                .andExpect(jsonPath("$.currentSeason.paidIn").value(true))
+                .andExpect(jsonPath("$.currentSeason.picks[0].id").value(7))
+                .andExpect(jsonPath("$.currentSeason.picks[0].teamName").value("Baltimore Ravens"));
     }
 
     @Test
