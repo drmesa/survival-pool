@@ -1,39 +1,21 @@
 package com.nothingtothetable.survivalpool.types;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+import java.time.Instant;
+
+@Data
+@Accessors(chain = true)
 public class DomainPick
 {
     private Long id;
-    private DomainWeek week;
-    private DomainTeam team;
-    private PickOutcome pickOutcome;
-
-    public Long getId()
-    {
-        return id;
-    }
-
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
-
-    public DomainWeek getWeek()
-    {
-        return week;
-    }
-
-    public void setWeek(DomainWeek week)
-    {
-        this.week = week;
-    }
-
-    public PickOutcome getPickOutcome()
-    {
-        return pickOutcome;
-    }
-
-    public void setPickOutcome(PickOutcome pickOutcome)
-    {
-        this.pickOutcome = pickOutcome;
-    }
+    private Long playerSeasonXrefId;
+    private Long weekId;
+    private Integer weekNumber;
+    private Long teamSeasonId;
+    private String teamName;
+    private String teamAbbreviation;
+    private Instant submittedAt;
+    private PickOutcome outcome;
 }

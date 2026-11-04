@@ -6,6 +6,6 @@ import org.apache.ibatis.annotations.Select;
 
 public interface PlayerRepository
 {
-    @Select("SELECT id, name, strikes FROM players WHERE id = #{playerId}")
+    @Select("SELECT id, user_id AS userId, name FROM players WHERE id = #{playerId}")
     DomainPlayer findById(@Param("playerId") Long playerId);
 }

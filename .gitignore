@@ -28,3 +28,11 @@ hs_err_pid*
 # Compiled stuff #
 target/
 /survival-pool.iml
+
+# Local secrets and environment-specific configuration
+.env
+.env.*
+!.env.example
+application-local.properties
+application-secrets.properties
+*.local.properties

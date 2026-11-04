@@ -27,15 +27,24 @@ class PlayerRepositoryTest
     void setUp()
     {
         jdbcTemplate.execute("DROP TABLE IF EXISTS players");
+        jdbcTemplate.execute("DROP TABLE IF EXISTS users");
+        jdbcTemplate.execute("""
+                CREATE TABLE users (
+                    id BIGINT PRIMARY KEY,
+                    email VARCHAR(320) NOT NULL UNIQUE
+                )
+                """);
+        jdbcTemplate.update("INSERT INTO users (id, email) VALUES (?, ?)", 7L, "alex@example.com");
         jdbcTemplate.execute("""
                 CREATE TABLE players (
                     id BIGINT PRIMARY KEY,
+                    user_id BIGINT NOT NULL UNIQUE,
                     name VARCHAR(255) NOT NULL,
-                    strikes INTEGER NOT NULL
+                    FOREIGN KEY (user_id) REFERENCES users (id)
                 )
                 """);
-        jdbcTemplate.update("INSERT INTO players (id, name, strikes) VALUES (?, ?, ?)",
-                42L, "Alex", 1);
+        jdbcTemplate.update("INSERT INTO players (id, user_id, name) VALUES (?, ?, ?)",
+                42L, 7L, "Alex");
     }
 
     @Test
@@ -44,8 +53,8 @@ class PlayerRepositoryTest
         DomainPlayer player = playerRepository.findById(42L);
 
         assertEquals(42L, player.getId());
+        assertEquals(7L, player.getUserId());
         assertEquals("Alex", player.getName());
-        assertEquals(1, player.getStrikes());
     }
 
     @Test
